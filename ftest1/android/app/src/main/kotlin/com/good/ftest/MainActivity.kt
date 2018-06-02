@@ -1,4 +1,4 @@
-package com.good.ftest1
+package com.good.ftest
 
 import android.os.Bundle
 

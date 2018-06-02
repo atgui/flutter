@@ -56,11 +56,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     _touchToDetailPage(VideoModel mod) {
-      Navigator.push(context,new MaterialPageRoute(
-          builder: (context) => new DetailPage(
-            mod: mod,
-            key: Key("to_detail_key"),
-          )));
+
+      try {
+        Navigator.push(context,new MaterialPageRoute(
+            builder: (context) => new DetailPage(
+              mod: mod,
+              key: Key("to_detail_key"),
+            )));
+      } catch (e, s) {
+        print(s);
+      }
     }
 
     Widget _itemBuilder(BuildContext context, int index) {
@@ -93,8 +98,8 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   new CircleAvatar(
                     foregroundColor: Colors.greenAccent,
-                    backgroundImage: NetworkImage(
-                        "${Manager.instance.resUrl}${homeList[index].avatar}"), //AssetImage('assets/head.jpg'),new AssetImage('assets/head.jpg'),//
+//                    backgroundImage: NetworkImage(
+//                        "${Manager.instance.resUrl}${homeList[index].avatar}"), //AssetImage('assets/head.jpg'),new AssetImage('assets/head.jpg'),//
                     radius: 30.0,
                   ),
                   Column(

@@ -14,12 +14,18 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
-//  VideoPlayerController controller=null;//new VideoPlayerController.network("");
-
   var initBoo = false;
   VideoDetailModel detailModel = new VideoDetailModel(genres: []);
 
   var isLoad = false;
+  VideoPlayerController _controller;//=new VideoPlayerController.network("");
+  var isPlayer=false;
+  var isInitPlayer=false;
+
+
+  var videoUrl="http://res.gittask.com/assets/1pondo/M3U8/1527909531428.m3u8";
+//  var videoUrl="assets/tvideo.mp4";
+  var listener;
 
   _getDetail() async {
     detailModel = await Manager.instance.getDetail(widget.mod.shortId);
@@ -35,50 +41,90 @@ class _DetailPageState extends State<DetailPage> {
     }
 
     if (!mounted) return;
+    videoUrl=Manager.instance.videoUrl+""+ detailModel.getVideoRes();
+    listener=(){
+      print("INIT:${_controller.value.initialized} ::ISPLAYER:${_controller.value.isPlaying}");
+      if(_controller.value.isPlaying&&_controller.value.initialized==true&&isInitPlayer==false){
+        isInitPlayer=true;
+        setState(() {
+          isPlayer=_controller.value.isPlaying;
+        });
+      }
+    };
+    _controller = new VideoPlayerController.network(videoUrl,
+    )..addListener(listener)..initialize()..play();
     setState(() {
       initBoo = true;
     });
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
+
     SystemManager.instance.initPlatformState();
     _getDetail();
+  }
+
+  _closeContext() async{
+    var oo=SystemManager.systemOs()=="IOS";
+    _controller.removeListener(listener);
+    if(oo==true) {
+      _controller.timer?.cancel();
+      await _controller.pause();
+    }else {
+      await _controller.dispose();
+    }
+  }
+
+  @override
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
+    _closeContext();
   }
 
   @override
   Widget build(BuildContext context) {
     var isFlull = widget.mod.horizontally == 1;
 
-    //要判断是Android 还是 IOS IOS 暂时还不能自动播放
-    final fullView = Scaffold(
-      backgroundColor: Colors.black,
-      body: Stack(
+    //全屏
+    final fullView = new Scaffold(
+      backgroundColor: Colors.white,
+      body:Stack(
         children: <Widget>[
-//          new AspectRatio(
-//            aspectRatio: 9 / 16,
-//            child: new VideoPlayer(controller),
-//          ),
-          new NetworkPlayerLifeCycle(
-            'http://res.gittask.com/assets/1pondo/M3U8/1527909531428.m3u8',
-                (BuildContext context,VideoPlayerController controller) {
-              return new AspectRatioVideo(controller);
-            },
+          Positioned(
+            top: 0.0,
+            left: 0.0,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Image(image: NetworkImage("${Manager.instance.resUrl}${detailModel.thumbHigh}"),),
+            ),
+          ),
+          isPlayer==true? new AspectRatio(
+            aspectRatio: 9 / 16,
+            child: new VideoPlayer(_controller),
+          ):Center(
+            child:Container(
+              width: MediaQuery.of(context).size.width,
+              child: Image(image: NetworkImage("${Manager.instance.resUrl}${detailModel.thumbHigh}"),fit: BoxFit.fill,),
+            ) //CircularProgressIndicator(backgroundColor: Colors.transparent,),
           ),
           Positioned(
-            top:20.0,
-            left: 0.0,
+            top: 20.0,
             child: Card(
-              color:Colors.transparent,
+              color: Colors.transparent,
               child: IconButton(icon: Icon(Icons.arrow_back_ios,color: Colors.white,),onPressed: (){
+                _closeContext();
                 Navigator.pop(context);
               },),
             ),
           )
         ],
-      ),
+      )
+      ,
     );
+
 
     ////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////
@@ -91,6 +137,7 @@ class _DetailPageState extends State<DetailPage> {
           '${Manager.instance.resUrl}${widget.mod.avatar}'), //new AssetImage('assets/head.jpg'),
       radius: 30.0,
     );
+
     var itemWrap = Wrap(
         spacing: 8.0, // gap between adjacent chips
         runSpacing: 4.0, // gap between lines
@@ -141,14 +188,13 @@ class _DetailPageState extends State<DetailPage> {
             Card(
               color: Colors.white,
               elevation: 10.0,
-              child: Padding(
-                padding: EdgeInsets.all(5.0),
-                child: new NetworkPlayerLifeCycle(
-                  'http://res.gittask.com/assets/1pondo/M3U8/1527909531428.m3u8',
-                      (BuildContext context, VideoPlayerController controller) =>
-                  new AspectRatioVideo(controller),
-                ),
-              ),
+              child: Padding(padding: EdgeInsets.all(5.0), child: Center()
+//                new NetworkPlayerLifeCycle(
+//                  'http://res.gittask.com/assets/1pondo/M3U8/1527909531428.m3u8',
+//                      (BuildContext context, VideoPlayerController controller) =>
+//                  new AspectRatioVideo(controller),
+//                ),
+                  ),
             ),
             Card(
               color: Colors.white,
@@ -184,20 +230,9 @@ class _DetailPageState extends State<DetailPage> {
       ),
     );
 
-    return fullView;//isFlull == true ? fullView : noFullView;
+    return fullView; //isFlull == true ? fullView : noFullView;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 class VideoPlayPause extends StatefulWidget {
   final VideoPlayerController controller;
@@ -212,7 +247,7 @@ class VideoPlayPause extends StatefulWidget {
 
 class _VideoPlayPauseState extends State<VideoPlayPause> {
   FadeAnimation imageFadeAnim =
-  new FadeAnimation(child: const Icon(Icons.play_arrow, size: 100.0));
+      new FadeAnimation(child: const Icon(Icons.play_arrow, size: 100.0));
   VoidCallback listener;
 
   _VideoPlayPauseState() {
@@ -249,7 +284,7 @@ class _VideoPlayPauseState extends State<VideoPlayPause> {
           }
           if (controller.value.isPlaying) {
             imageFadeAnim =
-            new FadeAnimation(child: const Icon(Icons.pause, size: 100.0));
+                new FadeAnimation(child: const Icon(Icons.pause, size: 100.0));
             controller.pause();
           } else {
             imageFadeAnim = new FadeAnimation(
@@ -297,7 +332,7 @@ class _FadeAnimationState extends State<FadeAnimation>
   void initState() {
     super.initState();
     animationController =
-    new AnimationController(duration: widget.duration, vsync: this);
+        new AnimationController(duration: widget.duration, vsync: this);
     animationController.addListener(() {
       if (mounted) {
         setState(() {});
@@ -330,9 +365,9 @@ class _FadeAnimationState extends State<FadeAnimation>
   Widget build(BuildContext context) {
     return animationController.isAnimating
         ? new Opacity(
-      opacity: 1.0 - animationController.value,
-      child: widget.child,
-    )
+            opacity: 1.0 - animationController.value,
+            child: widget.child,
+          )
         : new Container();
   }
 }
@@ -468,22 +503,22 @@ class VideoInListOfCards extends StatelessWidget {
         buildCard("Item g"),
         new Card(
             child: new Column(children: <Widget>[
-              new Column(
-                children: <Widget>[
-                  const ListTile(
-                    leading: const Icon(Icons.cake),
-                    title: const Text("Video video"),
-                  ),
-                  new Stack(
-                      alignment: FractionalOffset.bottomRight +
-                          const FractionalOffset(-0.1, -0.1),
-                      children: <Widget>[
-                        new AspectRatioVideo(controller),
-                        new Image.asset('assets/flutter-mark-square-64.png'),
-                      ]),
-                ],
+          new Column(
+            children: <Widget>[
+              const ListTile(
+                leading: const Icon(Icons.cake),
+                title: const Text("Video video"),
               ),
-            ])),
+              new Stack(
+                  alignment: FractionalOffset.bottomRight +
+                      const FractionalOffset(-0.1, -0.1),
+                  children: <Widget>[
+                    new AspectRatioVideo(controller),
+                    new Image.asset('assets/flutter-mark-square-64.png'),
+                  ]),
+            ],
+          ),
+        ])),
         buildCard("Item h"),
         buildCard("Item i"),
         buildCard("Item j"),

@@ -12,6 +12,13 @@ class VideoModel{
   var horizontally;//是否全屏 1:全屏
   var isFa=false;
 
+  String getAvatarRes(){
+//    if(this.avatar==""||this.avatar=="null"){
+//      return "";
+//    }
+    return this.avatar;
+  }
+
   String getDate() {
     var dateStr ="未知";
     if (release != null) {

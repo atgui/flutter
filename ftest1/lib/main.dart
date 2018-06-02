@@ -6,18 +6,22 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import './managers/manager.dart';
-import 'package:ftest1/managers/system_manager.dart';
+import './managers/system_manager.dart';
 import './page/home_page.dart';
 import './page/hot_page.dart';
 import './page/type_page.dart';
 import './page/me_page.dart';
-import 'package:video_player/video_player.dart';
+//import 'package:video_player/video_player.dart';
 
 void main() {
-  runApp(
-    new MyApp(),
+  try {
+    runApp(
+      new MyApp(),
 //  new ChewieDemo(),
-  );
+    );
+  } catch (e, s) {
+    print(s);
+  }
 }
 
 class MyApp extends StatelessWidget {
