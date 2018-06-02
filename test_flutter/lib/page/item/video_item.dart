@@ -24,7 +24,8 @@ class _VideoItemState extends State<VideoItem> {
     //头像
     var headIcon = new CircleAvatar(
       foregroundColor: Colors.greenAccent,
-      backgroundImage: NetworkImage(
+      backgroundImage:(widget.mod.avatar==null||widget.mod.avatar=="null"||widget.mod.avatar=='/assets/thumbs/50x50/13.jpg')?AssetImage("assets/head.jpg"):
+      NetworkImage(
           "${Manager.instance.resUrl}${widget.mod.avatar}"), //AssetImage('assets/head.jpg'),new AssetImage('assets/head.jpg'),//
       radius: 30.0,
     );
@@ -63,7 +64,8 @@ class _VideoItemState extends State<VideoItem> {
           FadeInImage(
         placeholder: AssetImage(
             "assets/test.jpg"), //new Image(image: Image.asset(""),).image,
-        image: NetworkImage(
+        image: (widget.mod.cover==null||widget.mod.cover=="null")?AssetImage("assets/test.jpg"):
+        NetworkImage(
             "${Manager.instance.resUrl}${widget.mod.cover}"), //AssetImage('assets/test.jpg'),//
       ),
     );

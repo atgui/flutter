@@ -22,8 +22,8 @@ class Manager {
 
   var token =
       "Bearer 0Gn_uArTAgDUmpmZHAYwm60evAbcqT9XkvbGX3qny8xL31WipDOmmja54IWJ71DM0qA586JhHMwfjk6Ry9G0elW1yCmeNBbwAiNr-60Ctob7ru5XHfmXtdkLQsY4rKdqoQqlHIx55duhScqtL0SDkQu_VsRtD_HIeCLoHWziF-xsLf8DMotvSkfNozx6naCITzRnP286bp3pHK0e0LzhsXQ6Gor65JWbgS6bKxMNYYbiLtg6s3xmi5Mb63yxrEaQ";
-  // var apiUrl = "http://api.1av.co/api/v1";
-  var apiUrl = "http://128.14.30.138:83/api/v1";
+   var apiUrl = "http://api.1av.co/api/v1";
+  //var apiUrl = "http://128.14.30.138:83/api/v1";
   var resUrl = "http://128.14.30.138:83/";
   VersionModel versionModel = null;
   var videoUrl = "https://128.14.30.138:83/";

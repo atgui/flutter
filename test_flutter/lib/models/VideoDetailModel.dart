@@ -6,9 +6,9 @@ class VideoDetailModel{
 
   String getVideoRes(){
     // if(m3u8=="null"||m3u8==null){
-      return this.videoUrl;
+//      return this.videoUrl;
     // }
-    // return m3u8;
+     return m3u8;
   }
 
   VideoDetailModel({this.m3u8,this.videoUrl,this.title,this.actorer,this.genres});
