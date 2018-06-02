@@ -52,7 +52,7 @@ class _TypePageState extends State<TypePage> {
               padding: EdgeInsets.all(5.0),
               child: FadeInImage(
                 placeholder: AssetImage("assets/load.gif"),
-                image: AssetImage("${Manager.instance.resUrl}${types[i].resPath}"),
+                image: NetworkImage("${Manager.instance.resUrl}${types[i].resPath}"),
               ),
             ),
           );

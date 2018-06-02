@@ -10,6 +10,7 @@ class VideoModel{
   var release;//发布日期
   var shortId;//ID
   var horizontally;//是否全屏 1:全屏
+  var isFa=false;
 
   String getDate() {
     var dateStr ="未知";
