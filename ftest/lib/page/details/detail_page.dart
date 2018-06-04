@@ -22,7 +22,7 @@ class _DetailPageState extends State<DetailPage> {
   var isPlayer = false;
   var isInitPlayer = false;
 
-  var videoUrl = "https://res1.gittask.com/assets/1pondo/M3U8/1527909531428.m3u8";
+  var videoUrl = "http://live.hkstv.hk.lxdns.com/live/hks/playlist.m3u8";
 //  var videoUrl="assets/tvideo.mp4";
   var listener;
 
