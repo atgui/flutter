@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import '../managers/manager.dart';
+
 class VideoModel{
   var avatar;//头像
   var actor;//演员
@@ -12,6 +14,10 @@ class VideoModel{
   var horizontally;//是否全屏 1:全屏
   var isFa=false;
 
+  String getCoverStr(){
+    var str="${Manager.instance.resUrl}${this.cover}";
+    return str;
+  }
   String getAvatarRes(){
 //    if(this.avatar==""||this.avatar=="null"){
 //      return "";

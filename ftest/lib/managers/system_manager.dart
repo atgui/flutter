@@ -43,7 +43,6 @@ class SystemManager {
 
   Future<Map<String, dynamic>> initPlatformState() async {
     Map<String, dynamic> deviceData;
-
     try {
       if (Platform.isAndroid) {
         deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);

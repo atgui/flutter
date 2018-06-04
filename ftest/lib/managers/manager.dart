@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import '../models/typedetailmodel.dart';
+
 import './system_manager.dart';
 import '../models/detaimodel.dart';
 import '../models/typemodel.dart';
@@ -255,63 +257,63 @@ class Manager {
     return ms;
   }
 
-//  Future<List<TypeDetailModel>> getSeries(type, pageIndex) async {
-//    var url = "${this.apiUrl}";
-//    var bodys;
-//    if (type == 0) {
-//      bodys = {"PageIndex": "${pageIndex}", "key": ""};
-//      url += "/series/getSeries";
-//    } else if (type == 1) {
-//      bodys = {"PageIndex": "${pageIndex}", "key": "", "kind": "0"};
-//      url += "/actor/getActors";
-//    } else if (type == 2) {
-//      bodys = {};
-//      url += "/category/getAvCategoryAll";
-//    }
-//
-//    Http.Response response = await Http.post(url, body: bodys, headers: {
-//      'Content-Type': 'application/x-www-form-urlencoded',
-//      'Authorization': this.token
-//    });
-//    String vStr = response.body;
-//    var listS = json.decode(vStr);
-//    SystemManager.showLog("Get 分类下的小分类列表信息", vStr);
-//    if (listS['data'] == null || listS['data'].length <= 0) {
-//      return [];
-//    }
-//    List<TypeDetailModel> ms = TypeDetailModel.fromJson(listS['data']['list']);
-//    // seriesList.addAll(ms);
-//    return ms;
-//  }
+  Future<List<TypeDetailModel>> getSeries(type, pageIndex) async {
+    var url = "${this.apiUrl}";
+    var bodys;
+    if (type == 0) {
+      bodys = {"PageIndex": "${pageIndex}", "key": ""};
+      url += "/series/getSeries";
+    } else if (type == 1) {
+      bodys = {"PageIndex": "${pageIndex}", "key": "", "kind": "0"};
+      url += "/actor/getActors";
+    } else if (type == 2) {
+      bodys = {};
+      url += "/category/getAvCategoryAll";
+    }
+
+    Http.Response response = await Http.post(url, body: bodys, headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': this.token
+    });
+    String vStr = response.body;
+    var listS = json.decode(vStr);
+    SystemManager.showLog("Get 分类下的小分类列表信息", vStr);
+    if (listS['data'] == null || listS['data'].length <= 0) {
+      return [];
+    }
+    List<TypeDetailModel> ms = TypeDetailModel.fromJson(listS['data']['list']);
+    // seriesList.addAll(ms);
+    return ms;
+  }
 //
 //  //类型点击后跳转到列表数据
-//  Future<List<VideoModel>> getList(type, shortId, pageIndex) async {
-//    var bodys = {"PageIndex": "${pageIndex}", "shortId": "${shortId}"};
-//    var apiUrl = "";
-//    if (type == 0) {
-//      //得到系列数据
-//      apiUrl = "/movie/getMoveBySeries";
-//    } else if (type == 1) {
-//      //女优
-//      apiUrl = "/movie/getMoveByActor";
-//    } else if (type == 2) {
-//      //类型
-//      apiUrl = "/movie/getMoveByTag";
-//    }
-//
-//    var url = "${this.apiUrl}${apiUrl}";
-//    Http.Response response = await Http.post(url, body: bodys, headers: {
-//      'Content-Type': 'application/x-www-form-urlencoded',
-//      'Authorization': this.token
-//    });
-//    String vStr = response.body;
-//    var listS = json.decode(vStr);
-//    SystemManager.showLog("Get List影片列表信息", listS);
-//    if (listS['data'] == null || listS['data'].length <= 0) {
-//      return [];
-//    }
-//    List<VideoModel> ms = VideoModel.fromJson(listS['data']['list']);
-//    return ms;
-//  }
+  Future<List<VideoModel>> getList(type, shortId, pageIndex) async {
+    var bodys = {"PageIndex": "${pageIndex}", "shortId": "${shortId}"};
+    var apiUrl = "";
+    if (type == 0) {
+      //得到系列数据
+      apiUrl = "/movie/getMoveBySeries";
+    } else if (type == 1) {
+      //女优
+      apiUrl = "/movie/getMoveByActor";
+    } else if (type == 2) {
+      //类型
+      apiUrl = "/movie/getMoveByTag";
+    }
+
+    var url = "${this.apiUrl}${apiUrl}";
+    Http.Response response = await Http.post(url, body: bodys, headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': this.token
+    });
+    String vStr = response.body;
+    var listS = json.decode(vStr);
+    SystemManager.showLog("Get List影片列表信息", listS);
+    if (listS['data'] == null || listS['data'].length <= 0) {
+      return [];
+    }
+    List<VideoModel> ms = VideoModel.fromJson(listS['data']['list']);
+    return ms;
+  }
 
 }

@@ -34,12 +34,11 @@ class _VideoItemState extends State<VideoItem> {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => DetailPage(
-//              key: Key('videoItem_key'),
-//              mod: widget.mod,
-            )));
+                  key: Key('videoItem_key'),
+                  mod: widget.mod,
+                )));
       },
-      child:
-      FadeInImage(
+      child: FadeInImage(
         placeholder: AssetImage(
             "assets/test.jpg"), //new Image(image: Image.asset(""),).image,
         image: NetworkImage(
@@ -70,10 +69,8 @@ class _VideoItemState extends State<VideoItem> {
     var title = GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => DetailPage(
-//              key: Key('videoItem_key'),
-//              mod: widget.mod
-            )));
+            builder: (context) =>
+                DetailPage(key: Key('videoItem_key'), mod: widget.mod)));
       },
       child: Container(
         width: 250.0,
